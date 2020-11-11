@@ -2,7 +2,7 @@
 
 
 
-document.querySelectorAll('input[name], #formula').forEach(function (input) {
+document.querySelectorAll('input[name], #formul, #condition').forEach(function (input) {
 	input.addEventListener('keyup', function () {
 		var data = {};
 
@@ -17,12 +17,27 @@ document.querySelectorAll('input[name], #formula').forEach(function (input) {
 			var calculator = new Function('cells', 'with (cells) { return ' + formula.value + ';}');
 
 			result.value = calculator(data);
-		}
-		catch (error) {
+		} catch (error) {
 			result.value = '#ERROR';
 			console.error(error.message);
 		}
 
+		const condition = document.getElementById('condition');
 
+		try {
+			var calculator = new Function('cells', 'with (cells) { return ' + condition.value + ';}');
+
+			result.value = calculator(data);
+		} catch (error) {
+			result.value = '#ERROR';
+			console.info(error.message);
+		}
+
+		if (calculator(data)){
+			result.style.backgroundColor = '#B6D7A8';
+		}
+		else {
+			result.style.backgroundColor = '#FFFFFF';
+		}
 	});
 });
